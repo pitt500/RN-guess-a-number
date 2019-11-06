@@ -10,7 +10,8 @@ const GameOverScreen = props => {
             <TitleText>The game is over</TitleText>
             <View style={styles.imageContainer}>
                 <Image
-                    source={require('../assets/success.png')}
+                    // source={require('../assets/success.png')} // <-- Only for local images
+                    source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/8/88/Summit_of_the_Matterhorn.jpg'}}
                     style={styles.image}
                     resizeMode='cover'
                 />
@@ -37,6 +38,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         marginVertical: 30
     },
+    // Always set width and height for images from web!
     image: {
         width: '100%',
         height: '100%',
