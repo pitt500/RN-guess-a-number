@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import { View, StyleSheet, Alert, ScrollView, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import NumberContainer from '../components/NumberContainer'
@@ -20,25 +20,24 @@ const generateRandomNumberBetween = (min, max, exclude) => {
 
 const GameScreen = props => {
 
-    const [currentGuess, setCurrentGuess] = useState(
-        generateRandomNumberBetween(1, 100, props.userChoice)
-    );
-    const [rounds, setRounds] = useState(0);
+    const initialGuess = generateRandomNumberBetween(1, 100, props.userChoice);
+    const [currentGuess, setCurrentGuess] = useState(initialGuess);
+    const [pastGuesses, setPastGuesses] = useState([initialGuess]);
     const currentLow = useRef(1);
     const currentHigh = useRef(100);
     const { userChoice, onGameOver } = props;
 
     useEffect(() => {
         if (currentGuess === props.userChoice) {
-            props.onGameOver(rounds);
+            props.onGameOver(pastGuesses.length);
         }
     }, [currentGuess, userChoice, onGameOver]);
 
     const nextGuessHandler = direction => {
-        if ((direction === 'lower' && currentGuess < props.userChoice) || 
-            (direction === 'greater' && currentGuess > props.userChoice)){
-            Alert.alert('Don\'t lie!', 'You know that this is wrong...',[
-                {text: 'Sorry!', style: 'cancel'}
+        if ((direction === 'lower' && currentGuess < props.userChoice) ||
+            (direction === 'greater' && currentGuess > props.userChoice)) {
+            Alert.alert('Don\'t lie!', 'You know that this is wrong...', [
+                { text: 'Sorry!', style: 'cancel' }
             ]);
             return;
         }
@@ -46,11 +45,12 @@ const GameScreen = props => {
         if (direction === 'lower') {
             currentHigh.current = currentGuess;
         } else {
-            currentLow.current = currentGuess;
+            currentLow.current = currentGuess + 1;
         }
         const nextNumber = generateRandomNumberBetween(currentLow.current, currentHigh.current, currentGuess);
         setCurrentGuess(nextNumber);
-        setRounds(rounds => rounds + 1);
+
+        setPastGuesses(currentPastGuesses => [nextNumber, ...currentPastGuesses]);
     };
 
     return (
@@ -62,9 +62,16 @@ const GameScreen = props => {
                     <Ionicons name="md-remove" size={24} color="white" />
                 </MainButton>
                 <MainButton onPress={nextGuessHandler.bind(this, 'greater')}>
-                <Ionicons name="md-add" size={24} color="white" />
+                    <Ionicons name="md-add" size={24} color="white" />
                 </MainButton>
             </Card>
+            <ScrollView>
+                {pastGuesses.map(guess => (
+                    <View key={guess}>
+                        <Text>{guess}</Text>
+                    </View>
+                ))}
+            </ScrollView>
         </View>
     );
 };
