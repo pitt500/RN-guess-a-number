@@ -6,7 +6,8 @@ import {
     Button, 
     TouchableWithoutFeedback,
     Keyboard,
-    Alert
+    Alert,
+    Dimensions
 } from 'react-native';
 
 //Custom components
@@ -119,7 +120,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     button: {
-        width: '40%'
+        //width: '40%'
+        //window is the real space for your app without status bar (or buttons for Android).
+        width: Dimensions.get('window').width / 4
     },
     input: {
         width: 50,
