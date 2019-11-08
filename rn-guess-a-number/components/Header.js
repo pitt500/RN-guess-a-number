@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 
 // Custom Components
 import TitleText from '../components/TitleText';
@@ -20,9 +20,11 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 90,
         paddingTop: 36,
-        backgroundColor: Colors.primary,
+        backgroundColor: Platform.OS === 'android' ?  Colors.primary : 'green',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderBottomColor: Platform.OS === 'ios' ? Colors.primary : 'transparent',
+        borderBottomWidth: Platform.OS === 'ios' ? 1 : 0
     },
     title: {
         color: 'white'
