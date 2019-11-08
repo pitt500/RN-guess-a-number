@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, ScrollView } from 'react-native';
+import {
+    View,
+    Text, 
+    StyleSheet,
+    Image, 
+    Dimensions,
+    ScrollView
+} from 'react-native';
 
 import BodyText from '../components/BodyText';
 import TitleText from '../components/TitleText';
@@ -27,12 +34,14 @@ const GameOverScreen = props => {
         <ScrollView>
             <View style={styles.screen}>
                 <TitleText>The game is over</TitleText>
-                <View style={{...styles.imageContainer, ...{
-                    width: availableDeviceHeight > 450 ?  availableDeviceWidth * 0.7 : availableDeviceWidth * 0.4,
-                    height: availableDeviceHeight > 450 ? availableDeviceWidth * 0.7: availableDeviceWidth * 0.4,
-                    borderRadius: availableDeviceHeight > 400 ? (availableDeviceWidth * 0.7) / 2 : (availableDeviceWidth * 0.4) / 2,
-                    marginVertical: availableDeviceHeight / 30
-                }}}>
+                <View style={{
+                    ...styles.imageContainer, ...{
+                        width: availableDeviceHeight > 450 ? availableDeviceWidth * 0.7 : availableDeviceWidth * 0.4,
+                        height: availableDeviceHeight > 450 ? availableDeviceWidth * 0.7 : availableDeviceWidth * 0.4,
+                        borderRadius: availableDeviceHeight > 400 ? (availableDeviceWidth * 0.7) / 2 : (availableDeviceWidth * 0.4) / 2,
+                        marginVertical: availableDeviceHeight / 30
+                    }
+                }}>
                     <Image
                         source={require('../assets/success.png')} // <-- Only for local images
                         //source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/8/88/Summit_of_the_Matterhorn.jpg'}} //<-- Only for web images
@@ -40,12 +49,16 @@ const GameOverScreen = props => {
                         resizeMode='cover'
                     />
                 </View>
-                <View style={{...styles.resultContainer, ...{
-                    marginVertical: availableDeviceHeight / 60
-                }}}>
-                    <BodyText style={{...styles.resultText, ...{
-                        fontSize: availableDeviceHeight < 400 ? 16 : 20
-                    }}}>Your phone needed <Text style={styles.highlight}>{props.rounds}</Text> rounds to guess the
+                <View style={{
+                    ...styles.resultContainer, ...{
+                        marginVertical: availableDeviceHeight / 60
+                    }
+                }}>
+                    <BodyText style={{
+                        ...styles.resultText, ...{
+                            fontSize: availableDeviceHeight < 400 ? 16 : 20
+                        }
+                    }}>Your phone needed <Text style={styles.highlight}>{props.rounds}</Text> rounds to guess the
                     number <Text style={styles.highlight}>{props.userNumber}</Text>.
                 </BodyText>
                 </View>
