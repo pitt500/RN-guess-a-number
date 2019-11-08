@@ -80,44 +80,14 @@ const GameScreen = props => {
 
     let listContainerStyle = styles.listContainer;
 
-    if (availableDeviceHeight < 350) {
+    if (availableDeviceWidth < 350) {
         listContainerStyle = styles.listContainerBig;
     }
 
-    if (availableDeviceHeight < 500) {
-        return (
-            <View style={styles.screen}>
-                <TitleText>Opponent's Guess</TitleText>
-                <View style={styles.controls}>
-                    <MainButton onPress={nextGuessHandler.bind(this, 'lower')}>
-                        <Ionicons name="md-remove" size={24} color="white" />
-                    </MainButton>
-                    <NumberContainer>{currentGuess}</NumberContainer>
-                    <MainButton onPress={nextGuessHandler.bind(this, 'greater')}>
-                        <Ionicons name="md-add" size={24} color="white" />
-                    </MainButton>
-                </View>
-
-                <View style={listContainerStyle}>
-                    {/* <ScrollView contentContainerStyle={styles.list}>
-                    {pastGuesses.map((guess, index) => renderListItem(guess, pastGuesses.length - index))}
-                </ScrollView> */}
-                    <FlatList
-                        keyExtractor={(item) => item}
-                        data={pastGuesses}
-                        renderItem={renderListItem.bind(this, pastGuesses.length)}
-                        contentContainerStyle={styles.list}
-                    />
-                </View>
-            </View>
-        );
-    }
-
-    return (
-        <View style={styles.screen}>
-            <TitleText>Opponent's Guess</TitleText>
+    let gameControls = (
+        <React.Fragment>
             <NumberContainer>{currentGuess}</NumberContainer>
-            <Card style={styles.buttonContainer}>
+            <Card style={ {...styles.buttonContainer, ...{marginTop: availableDeviceHeight > 600 ? 20 : 5}} }>
                 <MainButton onPress={nextGuessHandler.bind(this, 'lower')}>
                     <Ionicons name="md-remove" size={24} color="white" />
                 </MainButton>
@@ -125,6 +95,27 @@ const GameScreen = props => {
                     <Ionicons name="md-add" size={24} color="white" />
                 </MainButton>
             </Card>
+        </React.Fragment>
+    );
+
+    if (availableDeviceHeight < 500) {
+        gameControls = (
+            <View style={styles.controls}>
+                <MainButton onPress={nextGuessHandler.bind(this, 'lower')}>
+                    <Ionicons name="md-remove" size={24} color="white" />
+                </MainButton>
+                <NumberContainer>{currentGuess}</NumberContainer>
+                <MainButton onPress={nextGuessHandler.bind(this, 'greater')}>
+                    <Ionicons name="md-add" size={24} color="white" />
+                </MainButton>
+            </View>
+        );
+    }
+
+    return (
+        <View style={styles.screen}>
+            <TitleText>Opponent's Guess</TitleText>
+            {gameControls}
             <View style={listContainerStyle}>
                 {/* <ScrollView contentContainerStyle={styles.list}>
                     {pastGuesses.map((guess, index) => renderListItem(guess, pastGuesses.length - index))}
@@ -149,7 +140,7 @@ const styles = StyleSheet.create({
     buttonContainer: {
         flexDirection: "row",
         justifyContent: 'space-around',
-        marginTop: Dimensions.get('window').height > 600 ? 20 : 5,
+        //marginTop: Dimensions.get('window').height > 600 ? 20 : 5,
         width: 400,
         maxWidth: '90%'
     },
